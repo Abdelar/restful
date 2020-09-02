@@ -1,1 +1,1 @@
-# 🎥 A movies restful Api created with Express.js and mongoDB
+# 🎥 A movies restful Api created with Express.js and MongoDB
