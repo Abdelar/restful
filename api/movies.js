@@ -22,7 +22,25 @@ movies.post('/', async (req, res) => {
 
 	try {
 		const savedMovie = await movie.save();
-		res.send(savedMovie);
+		res.json({ savedMovie });
+	} catch (err) {
+		res.status(500).json({ message: err });
+	}
+});
+
+// Add many movies
+movies.post('/many', async (req, res) => {
+	try {
+		await Movie.insertMany(
+			req.body.collection.map(movie => {
+				return new Movie({
+					title: movie.title,
+					rated: movie.rated,
+					year: movie.year,
+				});
+			})
+		);
+		res.json({ message: 'All records have been saved' });
 	} catch (err) {
 		res.status(500).json({ message: err });
 	}
@@ -48,9 +66,23 @@ movies.delete('/:movieId', async (req, res) => {
 	}
 });
 
+// Delete many movies from the db
+movies.delete('/', async (req, res) => {
+	try {
+		if (req.body.toRemove) {
+			await Movie.deleteMany({ _id: { $in: req.body.toRemove } });
+			res.json({ message: 'deleted the specified records' });
+		} else {
+			await Movie.deleteMany({});
+			res.json({ message: 'All records deleted' });
+		}
+	} catch (err) {
+		res.json({ message: err });
+	}
+});
+
 // Update a movie
 movies.patch('/:movieId', async (req, res) => {
-	console.log('patch route');
 	try {
 		const updatedMovie = await Movie.updateOne(
 			{ _id: req.params.movieId },
@@ -60,7 +92,7 @@ movies.patch('/:movieId', async (req, res) => {
 				},
 			}
 		);
-		res.send(updatedMovie);
+		res.json({ updatedMovie });
 	} catch (err) {
 		res.status(404).json({ message: err });
 	}
