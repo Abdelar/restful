@@ -12,35 +12,29 @@ movies.get('/', async (req, res) => {
 	}
 });
 
-// Add a movie
+// Add one or many movies
 movies.post('/', async (req, res) => {
-	const movie = new Movie({
-		title: req.body.title,
-		rated: req.body.rated,
-		year: req.body.year,
-	});
-
 	try {
-		const savedMovie = await movie.save();
-		res.json({ savedMovie });
-	} catch (err) {
-		res.status(500).json({ message: err });
-	}
-});
-
-// Add many movies
-movies.post('/many', async (req, res) => {
-	try {
-		await Movie.insertMany(
-			req.body.collection.map(movie => {
-				return new Movie({
-					title: movie.title,
-					rated: movie.rated,
-					year: movie.year,
-				});
-			})
-		);
-		res.json({ message: 'All records have been saved' });
+		if (req.body.collection) {
+			await Movie.insertMany(
+				req.body.collection.map(movie => {
+					return new Movie({
+						title: movie.title,
+						rated: movie.rated,
+						year: movie.year,
+					});
+				})
+			);
+			res.json({ message: 'All records have been saved' });
+		} else {
+			const movie = new Movie({
+				title: req.body.title,
+				rated: req.body.rated,
+				year: req.body.year,
+			});
+			await movie.save();
+			res.json({ message: 'Movie saved' });
+		}
 	} catch (err) {
 		res.status(500).json({ message: err });
 	}
@@ -60,7 +54,7 @@ movies.get('/:movieId', async (req, res) => {
 movies.delete('/:movieId', async (req, res) => {
 	try {
 		const deletedMovie = await Movie.deleteOne({ _id: req.params.movieId });
-		res.json(deletedMovie);
+		res.json({ message: 'Movie deleted successfully' });
 	} catch (err) {
 		res.status(404).json({ message: err });
 	}
@@ -69,8 +63,8 @@ movies.delete('/:movieId', async (req, res) => {
 // Delete many movies from the db
 movies.delete('/', async (req, res) => {
 	try {
-		if (req.body.toRemove) {
-			await Movie.deleteMany({ _id: { $in: req.body.toRemove } });
+		if (req.body.collection) {
+			await Movie.deleteMany({ _id: { $in: req.body.collection } });
 			res.json({ message: 'deleted the specified records' });
 		} else {
 			await Movie.deleteMany({});
@@ -92,7 +86,7 @@ movies.patch('/:movieId', async (req, res) => {
 				},
 			}
 		);
-		res.json({ updatedMovie });
+		res.json({ message: 'Movie updated successfully' });
 	} catch (err) {
 		res.status(404).json({ message: err });
 	}
