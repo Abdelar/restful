@@ -9,10 +9,10 @@ const app = express();
 // Middlewares
 app.use(cors());
 app.use(express.json());
-app.use('/movies', movies);
+app.use('/api/movies', movies);
 
 // Home route
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
 	res.send('hitting the home page');
 });
 
