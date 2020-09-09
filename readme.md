@@ -10,6 +10,6 @@
 - Delete api/:movieId
 - Patch api/:movieId
 
-### This project is not completed yet!
+### 🛠 This project is not completed yet!
 
-To see the whole project, refer to this [link](https://github.com/Abdelar/restful).
+Visit this project on [Github](https://github.com/Abdelar/restful) if you consider contributing.
