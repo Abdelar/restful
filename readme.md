@@ -2,13 +2,14 @@
 
 ## Routes
 
-- Get api/
-- Get api/:movieID
-- Post api/
-- Post api/:movieId
-- Delete api/
-- Delete api/:movieId
-- Patch api/:movieId
+- Get api/movies/
+- Get api/movies/:movieID
+- Post api/movies/  *(conf in the request body)*
+- Post api/movies/movie *(conf in the request body)*
+- Post api/movies/:movieId
+- Delete api/movies/
+- Delete api/movies/:movieId
+- Patch api/movies/:movieId *(conf in the request body)*
 
 ## Run a local copy
 
