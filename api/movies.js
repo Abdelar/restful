@@ -12,29 +12,34 @@ movies.get('/', async (req, res) => {
 	}
 });
 
-// Add one or many movies
+// Add one movie
+movies.post('/movie', async (req, res) => {
+	try {
+		const movie = new Movie({
+			title: req.body.title,
+			rated: req.body.rated,
+			year: req.body.year,
+		});
+		await movie.save();
+		res.status(201).json({ message: 'Movie saved' });
+	} catch (err) {
+		res.status(500).json({ message: err });
+	}
+});
+
+// Add multiple movies at once
 movies.post('/', async (req, res) => {
 	try {
-		if (req.body.collection) {
-			await Movie.insertMany(
-				req.body.collection.map(movie => {
-					return new Movie({
-						title: movie.title,
-						rated: movie.rated,
-						year: movie.year,
-					});
-				})
-			);
-			res.json({ message: 'All records have been saved' });
-		} else {
-			const movie = new Movie({
-				title: req.body.title,
-				rated: req.body.rated,
-				year: req.body.year,
-			});
-			await movie.save();
-			res.json({ message: 'Movie saved' });
-		}
+		await Movie.insertMany(
+			req.body.collection.map(movie => {
+				return new Movie({
+					title: movie.title,
+					rated: movie.rated,
+					year: movie.year,
+				});
+			})
+		);
+		res.status(201).json({ message: 'All records have been saved' });
 	} catch (err) {
 		res.status(500).json({ message: err });
 	}
