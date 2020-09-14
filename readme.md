@@ -18,7 +18,7 @@ Create an environment variable where you can safely store your database credenti
 In your terminal, run:
 
 ```bash
-node api/index
+npm start
 ```
 
 ### 🛠 This project is not completed yet!
