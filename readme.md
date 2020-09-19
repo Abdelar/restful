@@ -15,6 +15,7 @@
 
 ```bash
 git clone https://github.com/Abdelar/restful.git
+cd restful
 npm i
 ```
 
