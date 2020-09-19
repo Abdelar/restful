@@ -13,6 +13,8 @@
 
 ## Run a local copy
 
+In your terminal, run:
+
 ```bash
 git clone https://github.com/Abdelar/restful.git
 cd restful
@@ -21,7 +23,7 @@ npm i
 
 Create an environment variable where you can safely store your database credentials inside a **.env** file. Give it a name of DB_CONNECTION, or any name as long as you are consistent with the rest of the code.
 
-In your terminal, run:
+And run:
 
 ```bash
 npm start
